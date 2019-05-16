@@ -7,9 +7,8 @@ const segError = document.getElementById('num-seg-error')
 const defaultNumSegments = 20
 let numSegments = defaultNumSegments
 
-const speed = 1
+const speed = 1 / 200
 const maxSegmentWidth = 20
-const ageOfDeath = 200
 let progress = 0
 
 const curve = x => (2 * x - 1) ** 5 / 2 + 0.5
@@ -38,8 +37,7 @@ function run() {
     const segLength = (2 * Math.PI) / numSegments
 
     for (let i = 0; i < numSegments; i++) {
-        const currSeg = (progress + (i / numSegments) * ageOfDeath) % ageOfDeath
-        const donePercent = curve(currSeg / ageOfDeath)
+        const donePercent = curve((progress + i / numSegments) % 1)
         const mag = donePercent * (canvas.width / 2 + 50)
 
         ctx.beginPath()
@@ -48,7 +46,7 @@ function run() {
         ctx.stroke()
     }
 
-    progress = (progress + speed) % ageOfDeath
+    progress = (progress + speed) % 1
 
     requestAnimationFrame(run)
 }
